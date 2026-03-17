@@ -69,3 +69,14 @@ li button {
 li button:hover {
   background: darkred;
 }
+
+.filtros button.ativo {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.filtros button {
+    cursor: pointer;
+    border: none;
+    padding: 8px 12px;
+    }

@@ -7,16 +7,19 @@
 </head>
 <body>
 
-  <div class="container">
-    <h1>Minha Lista de Tarefas</h1>
+<div class="container">
+  <h1>Minha Lista de Tarefas</h1>
+
   <div class="input-area">
     <input type="text" id="inputTarefa" placeholder="Digite uma tarefa">
     <button onclick="adicionarTarefa()">Adicionar</button>
   </div>
 
-    <ul id="lista"></ul>
+  <div class="filtros">
+    <button id="btnTodas" onclick="mudarFiltro('todas')">Todas</button>
+    <button id="btnPendentes" onclick="mudarFiltro('pendentes')">Pendentes</button>
+    <button id="btnCondluidas"  onclick="mudasFiltro('concluidas')">Concluidas</button>"
   </div>
 
-  <script src="script.js"></script>
-</body>
-</html>
+  <ul id="lista"></ul>
+</div>

@@ -1,3 +1,5 @@
+let filtroAtual = "todas";
+
 let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
 
 function adicionarTarefa() {
@@ -20,23 +22,39 @@ function renderizar() {
   const lista = document.getElementById("lista");
   lista.innerHTML = "";
 
-  tarefas.forEach((tarefa, index) => {
-    const li = document.createElement("li");
+  let tarefasFiltradas = tarefas;
 
+  if (filtroAtual === "pendentes") {
+    tarefasFiltradas = tarefas.filter(t => !t.concluida);
+  }
+
+  if (filtroAtual === "concluidas") {
+    tarefasFiltradas = tarefas.filter(t => t.concluida);
+  }
+
+  tarefasFiltradas.forEach((tarefa) => {
+    const index = tarefas.indexOf(tarefa);
+
+    const li = document.createElement("li");
     li.textContent = tarefa.texto;
 
     if (tarefa.concluida) {
-        li.style.textDecoration = "line-through";
+      li.style.textDecoration = "line-through";
     }
-    li.ondblclick = function () {
-        const novoTexto = prompt("Editar Tarefa:", tarefa.texto);
 
-        if (novoTexto !== null && novoTexto.trim() !== "") {
-            tarefas[index].texto = novoTexto;
-            renderizar();
-        }
+    li.onclick = function () {
+      tarefas[index].concluida = !tarefas[index].concluida;
+      renderizar();
     };
 
+    li.ondblclick = function () {
+      const novoTexto = prompt("Editar Tarefa:", tarefa.texto);
+
+      if (novoTexto !== null && novoTexto.trim() !== "") {
+        tarefas[index].texto = novoTexto;
+        renderizar();
+      }
+    };
 
     const botao = document.createElement("button");
     botao.textContent = "X";
