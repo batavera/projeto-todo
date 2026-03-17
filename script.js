@@ -73,6 +73,31 @@ function renderizar() {
 }
 
 renderizar();
+mudarFiltro("todas");
+
+function mudarFiltro(filtro) {
+  filtroAtual = filtro;
+
+  // remove destaque de todos
+  document.getElementById("btnTodas").classList.remove("ativo");
+  document.getElementById("btnPendentes").classList.remove("ativo");
+  document.getElementById("btnConcluidas").classList.remove("ativo");
+
+  // adiciona destaque no botão clicado
+  if (filtro === "todas") {
+    document.getElementById("btnTodas").classList.add("ativo");
+  }
+
+  if (filtro === "pendentes") {
+    document.getElementById("btnPendentes").classList.add("ativo");
+  }
+
+  if (filtro === "concluidas") {
+    document.getElementById("btnConcluidas").classList.add("ativo");
+  }
+
+  renderizar();
+}
 
 document.getElementById("inputTarefa").addEventListener("keydown", function(e) {
   if (e.key === "Enter") {
