@@ -2,20 +2,26 @@ let filtroAtual = "todas";
 
 let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
 
+function salvarTarefas() {
+  localStorage.setItem("tarefas", JSON.stringify(tarefas));
+}
+
 function adicionarTarefa() {
   const input = document.getElementById("inputTarefa");
-  const texto = input.value;
+  const texto = input.value.trim();
 
   if (texto === "") return;
 
   tarefas.push({
-  texto: texto,
-  concluida: false
-});
-  renderizar();
+    texto: texto,
+    concluida: false
+  });
 
   input.value = "";
   input.focus();
+
+  salvarTarefas();
+  renderizar();
 }
 
 function renderizar() {
@@ -44,6 +50,7 @@ function renderizar() {
 
     li.onclick = function () {
       tarefas[index].concluida = !tarefas[index].concluida;
+      salvarTarefas();
       renderizar();
     };
 
@@ -51,7 +58,8 @@ function renderizar() {
       const novoTexto = prompt("Editar Tarefa:", tarefa.texto);
 
       if (novoTexto !== null && novoTexto.trim() !== "") {
-        tarefas[index].texto = novoTexto;
+        tarefas[index].texto = novoTexto.trim();
+        salvarTarefas();
         renderizar();
       }
     };
@@ -62,6 +70,7 @@ function renderizar() {
     botao.onclick = function (e) {
       e.stopPropagation();
       tarefas.splice(index, 1);
+      salvarTarefas();
       renderizar();
     };
 
@@ -69,21 +78,16 @@ function renderizar() {
     lista.appendChild(li);
   });
 
-  localStorage.setItem("tarefas", JSON.stringify(tarefas));
+  atualizarContador();
 }
-
-renderizar();
-mudarFiltro("todas");
 
 function mudarFiltro(filtro) {
   filtroAtual = filtro;
 
-  // remove destaque de todos
   document.getElementById("btnTodas").classList.remove("ativo");
   document.getElementById("btnPendentes").classList.remove("ativo");
   document.getElementById("btnConcluidas").classList.remove("ativo");
 
-  // adiciona destaque no botão clicado
   if (filtro === "todas") {
     document.getElementById("btnTodas").classList.add("ativo");
   }
@@ -99,9 +103,22 @@ function mudarFiltro(filtro) {
   renderizar();
 }
 
+function atualizarContador() {
+  const total = tarefas.length;
+  const pendentes = tarefas.filter(t => !t.concluida).length;
+  const concluidas = tarefas.filter(t => t.concluida).length;
+
+  document.getElementById("total").textContent = `Total: ${total}`;
+  document.getElementById("pendentes").textContent = `Pendentes: ${pendentes}`;
+  document.getElementById("concluidas").textContent = `Concluídas: ${concluidas}`;
+}
+
 document.getElementById("inputTarefa").addEventListener("keydown", function(e) {
   if (e.key === "Enter") {
     e.preventDefault();
     adicionarTarefa();
   }
 });
+
+renderizar();
+mudarFiltro("todas");
