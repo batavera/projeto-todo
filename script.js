@@ -13,6 +13,7 @@ function adicionarTarefa() {
   if (texto === "") return;
 
   tarefas.push({
+    id: Date.now(),
     texto: texto,
     concluida: false
   });
@@ -55,7 +56,7 @@ function renderizar() {
   tarefasFiltradas.forEach((tarefa) => {
 
     
-    const index = tarefas.findIndex(t => t === tarefa);
+    const index = tarefas.findIndex(t => t.id === tarefa.id);
 
     const li = document.createElement("li");
     li.textContent = tarefa.texto;
