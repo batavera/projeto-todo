@@ -151,9 +151,9 @@ function atualizarContador() {
   const pendentes = tarefas.filter(t => !t.concluida).length;
   const concluidas = tarefas.filter(t => t.concluida).length;
 
-  document.getElementById("total").textContent = `Total: ${total}`;
-  document.getElementById("pendentes").textContent = `Pendentes: ${pendentes}`;
-  document.getElementById("concluidas").textContent = `Concluídas: ${concluidas}`;
+  document.getElementById("total").textContent = `Total ${total}`;
+  document.getElementById("pendentes").textContent = `Pendentes ${pendentes}`;
+  document.getElementById("concluidas").textContent = `Concluídas ${concluidas}`;
 }
 
 document.getElementById("inputTarefa").addEventListener("keydown", function(e) {
