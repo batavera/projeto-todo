@@ -54,15 +54,37 @@ function renderizar() {
       renderizar();
     };
 
-    li.ondblclick = function () {
-      const novoTexto = prompt("Editar Tarefa:", tarefa.texto);
+  li.ondblclick = function () {
+     const inputEdit = document.createElement("input");
+     inputEdit.type = "text";
+     inputEdit.value = tarefa.texto;
 
-      if (novoTexto !== null && novoTexto.trim() !== "") {
-        tarefas[index].texto = novoTexto.trim();
+     li.innerHTML = ""; 
+     li.appendChild(inputEdit);
+     inputEdit.focus();
+
+    function salvarEdicao() {
+      const novoTexto = inputEdit.value.trim();
+
+      if (novoTexto !== "") {
+        tarefas[index].texto = novoTexto;
         salvarTarefas();
         renderizar();
-      }
-    };
+      } else {
+        renderizar(); 
+    }
+  }
+
+    inputEdit.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        salvarEdicao();
+    }
+  });
+
+  inputEdit.addEventListener("blur", function () {
+    salvarEdicao();
+  });
+};
 
     const botao = document.createElement("button");
     botao.textContent = "X";
