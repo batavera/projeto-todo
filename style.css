@@ -8,11 +8,11 @@ body {
 }
 
 .container {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
   width: 350px;
   background: #2a2a2a;
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
 h1 {
@@ -44,10 +44,13 @@ button {
 }
 
 button:hover {
+  transform: scale(1.05);
+  transition: 0.2s;
   background: #45a049;
 }
 
 li {
+  transition: all 0.2s ease;
   background: #3a3a3a;
   margin-top: 10px;
   padding: 10px;
@@ -58,7 +61,7 @@ li {
 }
 
 li:hover {
-  background: #4a4a4a;
+  background-color: #4a4a4a;
 }
 
 li button {
