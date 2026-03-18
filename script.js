@@ -47,13 +47,15 @@ function renderizar() {
 
     lista.appendChild(li);
 
-    atualizarContador();
+    atualizarContador(); 
 
     return;
   }
 
   tarefasFiltradas.forEach((tarefa) => {
-    const index = tarefas.indexOf(tarefa);
+
+    
+    const index = tarefas.findIndex(t => t === tarefa);
 
     const li = document.createElement("li");
     li.textContent = tarefa.texto;
@@ -123,6 +125,9 @@ function renderizar() {
     li.appendChild(botao);
     lista.appendChild(li);
   });
+
+  
+  atualizarContador(); 
 }
 
 function mudarFiltro(filtro) {
