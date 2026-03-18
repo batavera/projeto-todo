@@ -37,6 +37,17 @@ function renderizar() {
   if (filtroAtual === "concluidas") {
     tarefasFiltradas = tarefas.filter(t => t.concluida);
   }
+  
+  if (tarefasFiltradas.length === 0) {
+    const li = document.createElement("li");
+    li.textContent = "Nenhuma tarefa por aqui 👀";
+    li.style.textAlign = "center";
+    li.style.opacity = "0.6";
+    li.style.cursor = "default";
+
+    lista.appendChild(li);
+    return;
+  }
 
   tarefasFiltradas.forEach((tarefa) => {
     const index = tarefas.indexOf(tarefa);
@@ -44,47 +55,57 @@ function renderizar() {
     const li = document.createElement("li");
     li.textContent = tarefa.texto;
 
+    setTimeout(() => {
+      li.classList.add("show");
+    }, 10);
+
     if (tarefa.concluida) {
       li.style.textDecoration = "line-through";
     }
 
+    let clickTimer;
+
     li.onclick = function () {
-      tarefas[index].concluida = !tarefas[index].concluida;
-      salvarTarefas();
-      renderizar();
-    };
-
-  li.ondblclick = function () {
-     const inputEdit = document.createElement("input");
-     inputEdit.type = "text";
-     inputEdit.value = tarefa.texto;
-
-     li.innerHTML = ""; 
-     li.appendChild(inputEdit);
-     inputEdit.focus();
-
-    function salvarEdicao() {
-      const novoTexto = inputEdit.value.trim();
-
-      if (novoTexto !== "") {
-        tarefas[index].texto = novoTexto;
+      clickTimer = setTimeout(() => {
+        tarefas[index].concluida = !tarefas[index].concluida;
         salvarTarefas();
         renderizar();
-      } else {
-        renderizar(); 
-    }
-  }
+      }, 200);
+    };
 
-    inputEdit.addEventListener("keydown", function (e) {
-      if (e.key === "Enter") {
+    li.ondblclick = function () {
+      clearTimeout(clickTimer); 
+
+      const inputEdit = document.createElement("input");
+      inputEdit.type = "text";
+      inputEdit.value = tarefa.texto;
+
+      li.innerHTML = "";
+      li.appendChild(inputEdit);
+      inputEdit.focus();
+
+      function salvarEdicao() {
+        const novoTexto = inputEdit.value.trim();
+
+        if (novoTexto !== "") {
+          tarefas[index].texto = novoTexto;
+          salvarTarefas();
+          renderizar();
+        } else {
+          renderizar();
+        }
+      }
+
+      inputEdit.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          salvarEdicao();
+        }
+      });
+
+      inputEdit.addEventListener("blur", function () {
         salvarEdicao();
-    }
-  });
-
-  inputEdit.addEventListener("blur", function () {
-    salvarEdicao();
-  });
-};
+      });
+    };
 
     const botao = document.createElement("button");
     botao.textContent = "X";
