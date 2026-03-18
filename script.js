@@ -46,6 +46,9 @@ function renderizar() {
     li.style.cursor = "default";
 
     lista.appendChild(li);
+
+    atualizarContador();
+
     return;
   }
 
@@ -120,8 +123,6 @@ function renderizar() {
     li.appendChild(botao);
     lista.appendChild(li);
   });
-
-  atualizarContador();
 }
 
 function mudarFiltro(filtro) {
